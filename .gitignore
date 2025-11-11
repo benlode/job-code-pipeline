@@ -1,0 +1,14 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Data files
+*.csv
+*.xlsx
+
+# Configs
+drconfig.yaml
+
+# macOS system files
+.DS_Store.env
+venv/
