@@ -230,6 +230,8 @@ cmb_model_url = os.getenv("CMB_MODEL_URL")
 tra_model_url = os.getenv("TRA_MODEL_URL")
 all_model_url = os.getenv("ALL_MODEL_URL")
 
+upload_url = os.getenv("UPLOAD_URL")
+
 slack_message = {
     "text": (
         #"*✅ Script Completed Successfully*", # LATER: Build logic to check if everything ran correctly
@@ -247,7 +249,8 @@ slack_message = {
         f"*Upload Datasets to Appropriate Models:*\n"
         f"🔗 [CMB Model]\n({cmb_model_url})\n"
         f"🔗 [TRA Model]\n({tra_model_url})\n"
-        f"🔗 [ALL Model]\n({all_model_url})\n"
+        f"🔗 [ALL Model]\n({all_model_url})\n\n\n"
+        f"🔗 [Upload URL]\n({upload_url})\n"
     )
 }
 
