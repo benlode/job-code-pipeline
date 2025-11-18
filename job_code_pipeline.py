@@ -130,6 +130,7 @@ for filename in os.listdir(target_dir):
         os.path.isdir(file_path)
         or filename.endswith(".py")
         or filename.endswith(".yaml")
+        or filename.endswith(".txt")
         or filename.startswith(".")
         or file_path == archive_dir
     ):
@@ -137,7 +138,7 @@ for filename in os.listdir(target_dir):
     shutil.move(file_path, os.path.join(archive_dir, filename))
     print(f"✅ Moved: {filename} → {archive_dir}/")
 
-# All files should be moved to the todays dated folder, excluding .py scripts
+# All files should be moved to the todays dated folder, excluding main scripts
 
 # Upload JOB_CODE_Combined_Filtered.csv to Azure at raw-datarobot-push/JobCode
 
