@@ -1,0 +1,23 @@
+📅 WkRoFile Dataset is up to date (1 days ago, 2025-11-16)
+📅 WKOTHSUB Dataset is up to date (1 days ago, 2025-11-16)
+📅 WkVehFl Dataset is up to date (1 days ago, 2025-11-16)
+📅 Primary Dataset is up to date (0 days ago, 2025-11-17)
+Found dataset: JOB_CODE_PRIMARY_DATASET_515
+Dataset ID: 68261da5f4aa275434bba92a
+Dataset Version ID: 691a8fbf7a526e8085cea96f
+Is latest version: True
+✅ Downloaded source dataset to: JOB_CODE_PRIMARY_DATASET_515.csv
+✔️ Loaded input file with 123,170 rows
+🔢 Rows after Step 1 (initial cleaning): 92,384
+⏱️ Step 1 completed in 136.67 seconds
+
+🔢 Rows after Step 2 (refined filtering): 76,965
+⏱️ Step 2 completed in 89.92 seconds
+
+🔢 Rows after Step 3 (final output): 62,457
+⏱️ Step 3 completed in 0.27 seconds
+
+✅ Clean source dataset saved to: JOB_CODE_PRIMARY_DATASET_CLEANED_515.csv
+📤 Uploading 'JOB_CODE_PRIMARY_DATASET_CLEANED_515.csv' to DataRobot dataset ID 682b8cf565ed2c5d450466c8...
+✅ Upload complete. New version ID: 691b9bf16f77b610cbf60d54
+📣 Slack notification sent.

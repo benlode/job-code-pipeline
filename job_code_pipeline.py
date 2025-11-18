@@ -30,6 +30,9 @@ import glob
 import pandas as pd
 import time
 from datetime import date
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # === Step 1: Move & Rename Downloaded Files ===
 downloads_dir = os.path.expanduser("~/Downloads")

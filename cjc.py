@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Initialize DataRobot client
-dr.Client(config_path="drconfig.yaml")
+dr_config_path = os.path.join(os.path.dirname(__file__), "drconfig.yaml")
+dr.Client(config_path=dr_config_path)
 
 dataset_status_messages = []
 errors_detected = []
@@ -61,7 +62,7 @@ for name, ds_id in dependent_dataset_ids.items():
 # === Download Latest Version of Primary Dataset ===
 
 # Initialize client
-client = dr.Client(config_path="drconfig.yaml")
+dr.Client(config_path=dr_config_path)
 
 # Set dataset ID and download destination
 source_dataset_id = os.getenv("PRIMARY_DATASET_ID")
@@ -82,7 +83,7 @@ try:
     log_messages.append(f"✅ Downloaded source dataset to: {input_file_path}")
 except Exception as e:
     error_msg = f"❌ Failed to download source dataset: {e}"
-    errors_detected.append("Failed to download primary dataset")
+    errors_detected.append("Failed to download source dataset")
     print(error_msg)
 
 if errors_detected:
@@ -175,14 +176,14 @@ df_final.to_csv(final_output_path, index=False)
 
 print(f"🔢 Rows after Step 3 (final output): {len(df_final):,}")
 print(f"⏱️ Step 3 completed in {time.time() - start:.2f} seconds\n")
-print(f"✅ Final filtered data saved to: {final_output_path}")
-log_messages.append(f"✅ Final filtered data saved to: {final_output_path}")
+print(f"✅ Clean source dataset saved to: {final_output_path}")
+log_messages.append(f"✅ Cleaned source dataset saved to: {final_output_path}")
 
 
 # === Upload Clean Dataset to DataRobot ===
 
 try:
-    dr.Client(config_path="drconfig.yaml")
+    dr.Client(config_path=dr_config_path)
 
     # Dataset details
     CLEANED_DATASET_ID = os.getenv("CLEANED_DATASET_ID")
@@ -195,7 +196,7 @@ try:
 
     # Upload the file
     new_version = dr.Dataset.create_version_from_file(
-        cleaned_dataset_id=CLEANED_DATASET_ID,
+        dataset_id=CLEANED_DATASET_ID,
         file_path=FILENAME,
         max_wait=600
     )
@@ -215,18 +216,6 @@ except Exception as e:
 status_block = "\n".join(dataset_status_messages)
 log_block = "\n".join(log_messages)
 
-
-# slack_message = {
-#     "text": (
-#         #"*✅ Script Completed Successfully*", # Need to build logic to send this if everything ran correctly
-#         f"*Dataset Refresh Check:*\n```{status_block}```"
-#         #f"\n```{log_block}```"
-#         f"\n```{log_messages}```"
-#         f"🔗 [View Dataset in DataRobot] ({dataset_url})\n\n"
-#         f"🔗 [VIN file scheduled to refresh at ?] ({vin_url})\n\n"
-#     )
-# }
-
 # Set URLs from .env file
 cleaned_dataset_url = os.getenv("CLEANED_DATASET_URL")
 vin_dataset_url = os.getenv("VIN_DATASET_URL")
@@ -245,20 +234,20 @@ slack_message = {
     "text": (
         #"*✅ Script Completed Successfully*", # LATER: Build logic to check if everything ran correctly
         f"*Dataset Refresh Check:*\n```{status_block}```\n"
-        f"{log_block}\n\n"
+        f"{log_block}\n\n\n"
         f"*Dataset Refresh Files:*\n"
-        f"🔗 [Cleaned Dataset]({cleaned_dataset_url})\n"
-        f"🔗 [VIN Dataset]({vin_dataset_url})\n"
-        f"🔗 [CMB 6M Dataset]({cmb_6m_dataset_url})\n"
-        f"🔗 [CMB 12M Dataset]({cmb_12m_dataset_url})\n"
-        f"🔗 [TRA 6M Dataset]({tra_6m_dataset_url})\n"
-        f"🔗 [TRA 12M Dataset]({tra_12m_dataset_url})\n"
-        f"🔗 [ALL 6M Dataset]({all_6m_dataset_url})\n"
-        f"🔗 [ALL 12M Dataset]({all_12m_dataset_url})\n\n"
+        f"🔗 [Cleaned Dataset]\n({cleaned_dataset_url})\n"
+        f"🔗 [VIN Dataset]\n({vin_dataset_url})\n"
+        f"🔗 [CMB 6M Dataset]\n({cmb_6m_dataset_url})\n"
+        f"🔗 [CMB 12M Dataset]\n({cmb_12m_dataset_url})\n"
+        f"🔗 [TRA 6M Dataset]\n({tra_6m_dataset_url})\n"
+        f"🔗 [TRA 12M Dataset]\n({tra_12m_dataset_url})\n"
+        f"🔗 [ALL 6M Dataset]\n({all_6m_dataset_url})\n"
+        f"🔗 [ALL 12M Dataset]\n({all_12m_dataset_url})\n\n\n"
         f"*Upload Datasets to Appropriate Models:*\n"
-        f"🔗 [CMB Model]({cmb_model_url})\n"
-        f"🔗 [TRA Model]({tra_model_url})\n"
-        f"🔗 [ALL Model]({all_model_url})\n"
+        f"🔗 [CMB Model]\n({cmb_model_url})\n"
+        f"🔗 [TRA Model]\n({tra_model_url})\n"
+        f"🔗 [ALL Model]\n({all_model_url})\n"
     )
 }
 
